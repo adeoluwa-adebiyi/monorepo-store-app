@@ -4,6 +4,8 @@ from django.views.generic import View, TemplateView
 from django.shortcuts import render
 from inventory.models import Product
 from django.http.request import HttpRequest
+from modules.services.cart.cart_service import CartService
+from django.http.response import HttpResponse
 
 
 class AddProductToCardView(View):
@@ -12,31 +14,10 @@ class AddProductToCardView(View):
 
         amount = int(request.POST.get("amount"))
 
-        context = dict()
+        total_items, total_price, cart_state = CartService.instance().add_product_to_cart(\
+            product_id=product_id, amount=amount, cart_state=request.session["cart"])
 
-        product = Product.objects.get(id=product_id)
-
-        request.session["cart"] = [
-            *request.session.get("cart", []),
-            {
-                "detail": {
-                    "name": product.name,
-                    "id": product.id,
-                    "image": product.image,
-                },
-                "amount": amount,
-                "price": float(amount * product.price),
-            }
-        ]
-
-        total_items = 0
-
-        total_price = 0
-
-        for items in request.session.get("cart",[]):
-            total_items += items["amount"]
-            total_price += items["price"]
-
+        request.session["cart"] = cart_state
         request.session["cart_total_items"] = total_items
         request.session["cart_total_price"] = total_price
 
@@ -47,24 +28,12 @@ class RemoveProductFromCartView(View):
 
     def get(self, request):
 
-        context = dict()
-
         index = int(request.GET.get("index"))
 
-        cart_state = request.session.get("cart")
-
-        del cart_state[index]
+        total_items, total_price, cart_state = CartService.instance().\
+            remove_cart_item(index=index, cart_state=request.session.get("cart", []))
 
         request.session["cart"] = cart_state
-
-        total_items = 0
-
-        total_price = 0
-
-        for items in request.session.get("cart",[]):
-            total_items += items["amount"]
-            total_price += items["price"]
-
         request.session["cart_total_items"] = total_items
         request.session["cart_total_price"] = total_price
 
@@ -77,31 +46,20 @@ class ViewCartView(View):
 
         template_name = "cart_listing.html"
 
-        index = request.GET.get("update")
+        try:
 
-        qty = request.GET.get("qty")
+            index = request.GET.get("update")
 
-        
-        if index is not None and qty is not None:
-            index = int(index)
-            qty = int(qty)
-            copy = request.session["cart"]
-            product = Product.objects.get(id=request.session["cart"][index]["detail"]["id"])
-            copy[index]["amount"] = qty
-            copy[index]["price"] = float(qty * product.price)
-            request.session["cart"] = [
-                *copy
-            ]
+            qty = request.GET.get("qty")
 
-            total_items = 0
+            if index is not None and qty is not None:
 
-            total_price = 0
+                total_items, total_price, cart_state = CartService.instance().update_cart_item(index=index, qty=qty,cart_state=request.session.get("cart",[]))
 
-            for items in request.session.get("cart",[]):
-                total_items += items["amount"]
-                total_price += items["price"]
+                request.session["cart"] = cart_state
+                request.session["cart_total_items"] = total_items
+                request.session["cart_total_price"] = total_price
 
-            request.session["cart_total_items"] = total_items
-            request.session["cart_total_price"] = total_price
-
-        return render(request, template_name)
+            return render(request, template_name)
+        except Exception as e:
+            return HttpResponse(str(e))
