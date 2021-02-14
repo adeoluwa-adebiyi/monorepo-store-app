@@ -42,9 +42,6 @@ class CheckoutCartView(View):
 class PayTransactionView(View):
 
     def post(self, request: HttpRequest, order_id: int):
-        waiting = True
-        def stop_waiting():
-            waiting = False
         trx_data = TrxJobSerializer(data=request.POST)
         trx_job = None
         if trx_data.is_valid(raise_exception=True):

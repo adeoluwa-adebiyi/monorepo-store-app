@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 
-# COPY . /home/app/src
+COPY . /home/app/src
 
 WORKDIR /home/app/src
 
