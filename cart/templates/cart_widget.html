@@ -1,0 +1,28 @@
+{% load static %}
+
+<div class="ps-cart"><a class="ps-cart__toggle" href="#"><span><i>{{cart_total_items}}</i></span><i class="ps-icon-shopping-cart"></i></a>
+    <div class="ps-cart__listing">
+      <div class="ps-cart__content">
+        {% if cart|length == 0 %}
+            <p style="text-align: center;color: white;">Empty Cart!</p>
+        {% endif %}
+
+        {% for cart_item in cart %}
+            <div class="ps-cart-item"><a class="ps-cart-item__close" href="/cart/remove?index={{forloop.counter0}}"></a>
+                <div class="ps-cart-item__thumbnail"><a href="{{cart_item.detail.link}}"></a><img src="{{cart_item.detail.image}}" alt=""></div>
+                <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{cart_item.details.link}}">{{cart_item.detail.name}}</a>
+                    <p><span>Quantity:<i>{{cart_item.amount}}</i></span><span>Total:<i>{{cart_item.price|floatformat:2}}</i></span></p>
+                </div>
+            </div>
+        {% endfor %}
+
+      </div>
+      {% if cart|length != 0 %}
+        <div class="ps-cart__total">
+            <p>Number of items:<span>{{cart_total_items}}</span></p>
+            <p>Item Total:&nbsp;<span style="font-weight: bold;">NGN</span><span>{{ cart_total_price | floatformat:2}}</span></p>
+        </div>
+        <div class="ps-cart__footer"><a class="ps-btn" href="/order/checkout">Check out<i class="ps-icon-arrow-left"></i></a></div>
+      {% endif %}
+    </div>
+  </div>

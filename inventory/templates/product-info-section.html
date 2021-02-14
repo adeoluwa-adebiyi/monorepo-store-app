@@ -1,0 +1,68 @@
+<div class="ps-product__info">
+
+    <div class="ps-product__rating">
+      <select class="ps-rating" value="{{product.rating}}">
+        <option value="1">1</option>
+        <option value="1">2</option>
+        <option value="1">3</option>
+        <option value="1">4</option>
+        <option value="2">5</option>
+      </select><a href="#">(Read all 8 reviews)</a>
+    </div>
+
+    <h1>{{product.name}}</h1>
+
+    <p class="ps-product__category">
+        <a href="#">{{product.category}}</a>
+    </p>
+
+    <h3 class="ps-product__price">
+
+
+        {% if not product.has_discount %}
+            NGN {{product.price|floatformat:2}}
+        {% endif %}
+
+        {% if product.has_discount %}
+            NGN {{product.discounted_price|floatformat:2}}
+            <del>NGN {{product.price}}</del>
+        {% endif %}
+    </h3>
+
+    <div class="ps-product__block ps-product__quickview">
+
+      <h4>Product Description</h4>
+      <p>{{product.description}}</p>
+
+      <div class="ps-product__shopping mb-10">
+
+        <div>
+            <form class="form form-inline" method="POST" action="/cart/add/{{product.id}}">
+
+                {% csrf_token %}
+
+                <input class="form-control" min="1" value=1 name="amount" style placeholder="Amount" type="number">
+
+                <button type="submit" class="ps-btn mb-10">Add to cart<i class="ps-icon-next"></i></button>
+
+            </form>
+        </div>
+
+        <div class="ps-product__actions">
+            <a class="mr-10" href="whishlist.html"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- <div class="ps-product__block ps-product__style">
+      <h4>CHOOSE YOUR STYLE</h4>
+      <ul>
+        <li><a href="#"><img src="{{product.image}}" alt=""></a></li>
+        <li><a href="product-detail.html"><img src="images/shoe/sidebar/2.jpg" alt=""></a></li>
+        <li><a href="product-detail.html"><img src="images/shoe/sidebar/3.jpg" alt=""></a></li>
+        <li><a href="product-detail.html"><img src="images/shoe/sidebar/2.jpg" alt=""></a></li>
+      </ul>
+    </div> -->
+    </div>
+  </div>

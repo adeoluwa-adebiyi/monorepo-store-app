@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <title>Payment | OTP</title>
+    </head>
+
+    <body>
+        <form method="POST" action="/order/authorize/{{trx_id}}">
+            {% csrf_token %}
+            <input type="hidden" value="{{trx_id}}">
+            <input type="text" name="otp" required="true" placeholder="Enter OTP">
+            <button type="submit">Proceed</button>
+        </form>
+    </body>
+</html>

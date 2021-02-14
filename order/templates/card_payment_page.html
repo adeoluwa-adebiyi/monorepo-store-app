@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Payment | Card</title>
+    </head>
+
+    <body>
+        <form action="/order/pay/{{order_id}}" method="POST">
+            {% csrf_token %}
+
+            <input type="text" name="firstname" placeholder="Firstname" required="true">
+            <input type="text" name="lastname" placeholder="Lastname" required="true">
+            <input type="text" name="phonenumber" placeholder="Phone" required="true">
+            <input type="email" name="email" placeholder="Email" required="true">
+            <input type="text" name="amount" placeholder="Amount" value={{amount}} required="true" readonly>
+            <input type="text" maxlength="16" name="cardno" placeholder="Card Number: XXXX XXXX XXXX XXXX" required="true">
+            <input type="text" name="expirymonth" maxlength="2" placeholder="Expiry Month" required="true">
+            <input type="text" name="expiryyear" maxlength="2" placeholder="Expiry Year" required="true">
+            <input type="text" name="cvv" maxlength="3" placeholder="CVV" required="true">
+
+            <button type="submit">Pay</button>
+        </form>
+    </body>
+    <!-- 5531886652142950 -->
+</html>
