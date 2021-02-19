@@ -15,7 +15,7 @@ class AddProductToCardView(View):
         amount = int(request.POST.get("amount"))
 
         total_items, total_price, cart_state = CartService.instance().add_product_to_cart(\
-            product_id=product_id, amount=amount, cart_state=request.session["cart"])
+            product_id=product_id, amount=amount, cart_state=request.session.get("cart",[]))
 
         request.session["cart"] = cart_state
         request.session["cart_total_items"] = total_items
