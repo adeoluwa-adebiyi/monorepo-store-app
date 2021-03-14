@@ -1,0 +1,14 @@
+export FLUTTER_WAVE_API_KEY=FLWPUBK_TEST-dea99fa3c77235b11ca9ad7bdd3d09e7-X
+export FLUTTER_WAVE_API_SECRET_KEY=FLWSECK_TEST-8c5d90852c49d0d37e2f22fc422d963c-X
+export PAYMENT_SERVICE_REDIS_PORT=18735
+export PAYMENT_SERVICE_REDIS_HOST=redis-18735.c44.us-east-1-2.ec2.cloud.redislabs.com
+export PAYMENT_SERVICE_REDIS_PASSWORD=VBvc6yBGT0T2GAwn64aZLkh4ioNS8Z8v
+export POSTGRES_PORT=5432
+export POSTGRES_DB_NAME=minrnkbd
+export POSTGRES_HOST=rogue.db.elephantsql.com
+export POSTGRES_PASSWORD=IPgekp_ZwgCrSKDUxEuU2Qrqg_wtsozS
+export POSTGRES_USER=minrnkbd
+export KAFKA_HOST=rocket-01.srvs.cloudkafka.com:9094
+export KAFKA_USERNAME=5myef1xu
+export KAFKA_PASSWORD=p9XeeG6glskK4uuN3zWhwInjXHSPhrsE
+export KAFKA_TOPIC_PREFIX=5myef1xu-

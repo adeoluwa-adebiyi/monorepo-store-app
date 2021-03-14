@@ -91,12 +91,12 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'USER': os.environ["POSTGRES_USER"],
-        'HOST': os.environ["POSTGRES_HOST"],
-        'PORT': os.environ["POSTGRES_PORT"],
-        'NAME': os.environ["POSTGRES_DB_NAME"],
-        'PASSWORD': os.environ["POSTGRES_PASSWORD"]
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': os.environ.get("POSTGRES_USER"),
+        'HOST': os.environ.get("POSTGRES_HOST"),
+        'PORT': 5432,
+        'NAME': os.environ.get("POSTGRES_DB_NAME"),
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD")
     }
 }
 
@@ -145,16 +145,16 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 
 # Flutterwave Payment API keys
-FLUTTER_WAVE_API_KEY=os.environ["FLUTTER_WAVE_API_KEY"]
-FLUTTER_WAVE_API_SECRET_KEY=os.environ["FLUTTER_WAVE_API_SECRET_KEY"]
+FLUTTER_WAVE_API_KEY=os.environ.get("FLUTTER_WAVE_API_KEY")
+FLUTTER_WAVE_API_SECRET_KEY=os.environ.get("FLUTTER_WAVE_API_SECRET_KEY")
 
 
 # Payment Redis Service
-PAYMENT_SERVICE_REDIS_PORT=os.environ["PAYMENT_SERVICE_REDIS_PORT"]
-PAYMENT_SERVICE_REDIS_HOST=os.environ["PAYMENT_SERVICE_REDIS_HOST"]
-PAYMENT_SERVICE_REDIS_PASSWORD=os.environ["PAYMENT_SERVICE_REDIS_PASSWORD"]
+PAYMENT_SERVICE_REDIS_PORT=os.environ.get("PAYMENT_SERVICE_REDIS_PORT")
+PAYMENT_SERVICE_REDIS_HOST=os.environ.get("PAYMENT_SERVICE_REDIS_HOST")
+PAYMENT_SERVICE_REDIS_PASSWORD=os.environ.get("PAYMENT_SERVICE_REDIS_PASSWORD")
 
-KAFKA_HOST=os.environ["KAFKA_HOST"]
-KAFKA_USERNAME=os.environ["KAFKA_USERNAME"]
-KAFKA_PASSWORD=os.environ["KAFKA_PASSWORD"]
-KAFKA_TOPIC_PREFIX=os.environ["KAFKA_TOPIC_PREFIX"]
+KAFKA_HOST=os.environ.get("KAFKA_HOST")
+KAFKA_USERNAME=os.environ.get("KAFKA_USERNAME")
+KAFKA_PASSWORD=os.environ.get("KAFKA_PASSWORD")
+KAFKA_TOPIC_PREFIX=os.environ.get("KAFKA_TOPIC_PREFIX")
