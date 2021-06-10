@@ -9,7 +9,7 @@ from modules.services.order.order_service import OrderService
 from modules.exceptions.checkout_exceptions import InsufficientProductQuantityError,\
      DuplicateTransactionPaymentException
 from kafka import KafkaProducer
-from .producers import redis, TOPIC_ID, SERVERS
+from .producers import redis, TOPIC_ID, SERVERS, kafka_producer
 from .models import TransactionJob, Order
 from .serializers import TrxJobSerializer, OtpSerializer
 import json
@@ -61,8 +61,12 @@ class PayTransactionView(View):
             else:
                 trx_job = TransactionJob.objects.create(order=Order.objects.get(id=order_id), payment_data=trx_data.validated_data)
 
-            producer = redis
+            # producer = redis
+            # producer.publish("payment_request", json.dumps({**trx_data.validated_data, "trxjob_id": trx_job.id}))
+
+            producer = kafka_producer
             producer.publish("payment_request", json.dumps({**trx_data.validated_data, "trxjob_id": trx_job.id}))
+
             pubsub = producer.pubsub()
             event = f"payment_otp#{trx_job.id}"
             pubsub.subscribe(event)

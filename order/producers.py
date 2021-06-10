@@ -12,9 +12,17 @@ SERVERS = getattr(
     "rocket-01.srvs.cloudkafka.com:9094,rocket-02.srvs.cloudkafka.com:9094,rocket-03.srvs.cloudkafka.com:9094"
     ).split(",")
 
+
+PAYMENT_REDIS_HOST = getattr(settings,"PAYMENT_SERVICE_REDIS_HOST","")
+
+PAYMENT_REDIS_PORT = getattr(settings, "PAYMENT_SERVICE_REDIS_PORT")
+
+PAYMENT_REDIS_PASSWORD = getattr(settings,"PAYMENT_SERVICE_REDIS_PASSWORD","")
+
+
 print(SERVERS)
 
-producer: KafkaProducer = KafkaProducer(
+kafka_producer: KafkaProducer = KafkaProducer(
         bootstrap_servers=[
             *SERVERS
         ], 
@@ -27,9 +35,13 @@ producer: KafkaProducer = KafkaProducer(
 )
 
 redis: Redis = Redis(
-    host="redis-18735.c44.us-east-1-2.ec2.cloud.redislabs.com", 
-    port=18735,
-    password="VBvc6yBGT0T2GAwn64aZLkh4ioNS8Z8v"
+    # host="redis-18735.c44.us-east-1-2.ec2.cloud.redislabs.com", 
+    host=PAYMENT_REDIS_HOST, 
+    port=PAYMENT_REDIS_PORT,
+    # password="VBvc6yBGT0T2GAwn64aZLkh4ioNS8Z8v"
+    password=PAYMENT_REDIS_PASSWORD
 )
+
+print(redis)
 
 pubsub  = redis.pubsub()
